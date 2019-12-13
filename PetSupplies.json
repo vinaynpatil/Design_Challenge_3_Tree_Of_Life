@@ -1,5 +1,8 @@
 {
+    "childrenNormalizationValue": 37,
+    "pathName": "PetSupplies",
     "name": "PetSupplies",
+    "productCount": "4113",
     "children": [
         {
             "name": "Dogs",
@@ -4644,9 +4647,7 @@
             "id": "34"
         }
     ],
-    "productCount": "4113",
-    "subtreeProductCount": "0",
-    "pathName": "PetSupplies",
+    "id": 0,
     "numChildren": 34,
-    "id": 0
+    "subtreeProductCount": "0"
 }

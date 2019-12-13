@@ -25,24 +25,29 @@ def helper(children):
 
 rows = []
 
+maxChildVal = 0
 
-with open('PetSupplies.csv') as csvfile:
+with open('all-nodes.csv') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
     next(readCSV)
     
     for row in readCSV:
+        if(maxChildVal<int(row[5])):
+            maxChildVal = int(row[5])
+        
         rows.append(row)
 
 main_children = literal_eval(rows[0][7])
 
 result = {
-    "name": "PetSupplies",
+    "name": "all-nodes",
     "id":0,
-    "pathName":"PetSupplies",
+    "pathName":"all-nodes",
     "numChildren":len(main_children),
     "productCount":rows[0][2],
     "subtreeProductCount":rows[0][3],
-    "children": []
+    "children": [],
+    "childrenNormalizationValue":maxChildVal
     }
 
 for child in main_children:
@@ -59,7 +64,7 @@ for child in main_children:
 
     result["children"].append(obj)
 
-with open('PetSupplies.json', 'w') as f:
+with open('all-nodes.json', 'w') as f:
     json.dump(result, f)
 
 

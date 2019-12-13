@@ -350,7 +350,6 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
     // Toggle children function
 
     function toggleChildren(d) {
-        console.log(event.target)
         if (d.children) {
             d._children = d.children;
             d.children = null;
@@ -428,7 +427,8 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
             .attr("r", 0)
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
-            });
+            }
+            );
 
         nodeEnter.append("text")
             .attr("x", function(d) {
@@ -449,7 +449,6 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
             .attr('class', 'ghostCircle')
             .attr("r", 30)
             .attr("opacity", 0.2) // change this to zero to hide the target area
-        .style("fill", "red")
             .attr('pointer-events', 'mouseover')
             .on("mouseover", function(node) {
                 overCircle(node);
@@ -472,9 +471,23 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
 
         // Change the circle fill depending on whether it has children and is collapsed
         node.select("circle.nodeCircle")
-            .attr("r", 4.5)
+            .attr("r", function(d){
+                console.log(root)
+                var value = d.numChildren;
+                if(Number.isNaN(value)){
+                    value = 0;
+                }
+                return 4.5 + (10 * value/root.childrenNormalizationValue)
+            })
             .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
+                var color = "lightsteelblue"
+                if(d.numChildren>0.3*root.childrenNormalizationValue){
+                    color = "Aquamarine"
+                }
+                if(d.numChildren==0){
+                    color = "red"
+                }
+                return color;
             });
 
         // Transition nodes to their new position.
