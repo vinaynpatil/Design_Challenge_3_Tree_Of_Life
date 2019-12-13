@@ -178,6 +178,11 @@ i {
   background: #ffffe0;
 }
 
+.leaf {
+  background: red;
+  margin-left: 20px;
+}
+
 .colors {
   position: absolute;
   margin-top: 55px;
@@ -188,6 +193,13 @@ i {
   position: absolute;
   margin-top: 55px;
 }
+
+.info-text-leaf{
+  position: absolute;
+  margin-top: 55px;
+  margin-left: 240px;
+}
+
 .info-range{
   position: absolute;
   margin-top: 43px;
@@ -218,9 +230,11 @@ i {
     <div class="foo maxi"></div>
     <div class="foo medium"></div>
     <div class="foo mini"></div>
+    <div class="foo leaf"></div>
   </div>
   <span class="info-range">100%&emsp;&emsp;&emsp;60%&emsp;&emsp;&emsp;30%</span>
   <span class="info-text">(Root prod count as a reference)</span>
+  <span class="info-text-leaf">(Leaf)</span>
     <div id="tree-container"></div>
 </body>
 </html>
