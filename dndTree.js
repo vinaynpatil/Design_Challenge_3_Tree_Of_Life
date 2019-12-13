@@ -1,34 +1,9 @@
-/*Copyright (c) 2013-2016, Rob Schmuecker
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-* The name Rob Schmuecker may not be used to endorse or promote products
-  derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL MICHAEL BOSTOCK BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
-OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
-
-
 // Get JSON data
-treeJSON = d3.json("all-nodes.json", function(error, treeData) {
-
+function initiation(filename){
+treeJSON = d3.json(filename, function(error, treeData) {
+    d3.select("svg").remove();
+    $("#context").hide();
+    $("#addInfo").hide();
     // Calculate total nodes, max label length
     var totalNodes = 0;
     var maxLabelLength = 0;
@@ -97,8 +72,6 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
     }
     // Sort the tree initially incase the JSON isn't in a sorted order.
     sortTree();
-
-    // TODO: Pan function, can be better implemented.
 
     function pan(domNode, direction) {
         var speed = panSpeed;
@@ -472,7 +445,6 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
         // Change the circle fill depending on whether it has children and is collapsed
         node.select("circle.nodeCircle")
             .attr("r", function(d){
-                console.log(root)
                 var value = d.numChildren;
                 if(Number.isNaN(value)){
                     value = 0;
@@ -480,9 +452,14 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
                 return 4.5 + (10 * value/root.childrenNormalizationValue)
             })
             .style("fill", function(d) {
-                var color = "lightsteelblue"
-                if(d.numChildren>0.3*root.childrenNormalizationValue){
-                    color = "Aquamarine"
+                prodMax = Math.max(root.productCount, root.subtreeProductCount);
+                currCount = Math.max(d.productCount, d.subtreeProductCount);
+                var color = "ffffe0"
+                if(currCount>0.6*prodMax){
+                    color = "00429d"
+                }
+                else if(currCount>0.3*prodMax){
+                    color = "96ffea"
                 }
                 if(d.numChildren==0){
                     color = "red"
@@ -574,3 +551,8 @@ treeJSON = d3.json("all-nodes.json", function(error, treeData) {
     update(root);
     centerNode(root);
 });
+}
+
+
+
+initiation(filename = "PetSupplies.json");
